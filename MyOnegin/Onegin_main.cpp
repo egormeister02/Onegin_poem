@@ -9,9 +9,9 @@ int main() {
     
     CreateText(&text, source);
 
-    SortBubble(&text);
+    MergeSort(text.Lines, text.nlines);
 
-    TextOut(&text, outfile);
+    WriteText(&text, outfile);
 
     fclose(source);
     fclose(outfile);

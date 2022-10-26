@@ -14,14 +14,14 @@ if (!(condition)){                                                \
 struct TEXT {
     char* buf = NULL;
     unsigned long size = 0;
-    int nlines = 0;
+    unsigned int nlines = 0;
     struct LINE* Lines = NULL;
 };
 
 struct LINE
 {
     char* line = NULL;
-    int length = 0;
+    unsigned int length = 0;
 };
 
 void CreateText(TEXT*, FILE*);
@@ -34,4 +34,6 @@ void cwapLine(LINE*, LINE*);
 
 void SortBubble(TEXT*);
 
-void TextOut(TEXT*, FILE*);
+void MergeSort(LINE*, int);
+
+void WriteText(TEXT*, FILE*);

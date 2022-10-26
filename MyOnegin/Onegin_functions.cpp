@@ -1,7 +1,7 @@
 #include"Onegin.h"
 
-void CreateText(TEXT* text, FILE* file) {
-
+void CreateText(TEXT* text, FILE* file) 
+{
     ASSERT(text != NULL);
     ASSERT(file != NULL);
 
@@ -20,15 +20,18 @@ void CreateText(TEXT* text, FILE* file) {
     CreateArrayLines(text);
 }
 
-void CreateArrayLines(TEXT* text) {
+void CreateArrayLines(TEXT* text) 
+{
     text->Lines = (LINE*)calloc(text->nlines, sizeof(LINE));
 
     ASSERT(text->Lines != NULL);
     
     text->Lines[0].line = (char*)text->buf;
     
-    for (int i = 0, k = 1; i < text->size; i++) {
-        if (*(text->buf + i) == '\n') {
+    for (int i = 0, k = 1; i < text->size; i++) 
+    {
+        if (*(text->buf + i) == '\n') 
+        {
             text->Lines[k].line = (char*)(text->buf + i + 1);
             text->Lines[k-1].length = (size_t)(text->Lines[k].line - text->Lines[k-1].line);
             k++;
@@ -36,8 +39,8 @@ void CreateArrayLines(TEXT* text) {
     }
 }
 
-int RepAndCount(TEXT* text, char a, char b) {
-
+int RepAndCount(TEXT* text, char a, char b) 
+{
     ASSERT(text != NULL);
 
     int count = 0;
@@ -50,8 +53,8 @@ int RepAndCount(TEXT* text, char a, char b) {
     return count;
 }
 
-void swapLine(LINE* a,LINE* b) {
-
+void swapLine(LINE* a,LINE* b) 
+{
     ASSERT(a != NULL);
     ASSERT(b != NULL);
 
@@ -60,8 +63,8 @@ void swapLine(LINE* a,LINE* b) {
     *b = c;
 }
 
-void SortBubble(TEXT* text) {
-
+void SortBubble(TEXT* text) 
+{
     ASSERT(text != NULL);
 
     for (int i = 1; i < text->nlines; i++)
@@ -70,12 +73,45 @@ void SortBubble(TEXT* text) {
                 swapLine(&text->Lines[j], &text->Lines[j+1]);
 }
 
-void TextOut(TEXT* text, FILE* file) {   
-
+void WriteText(TEXT* text, FILE* file)
+{   
     ASSERT(text != NULL);
     ASSERT(file != NULL);
 
     for (int i = 0; i < text->nlines; i++) {
         fwrite(text->Lines[i].line, text->Lines[i].length, sizeof(char), file);
     }
+}
+
+void MergeSort(LINE* Lines, int fsize)
+{
+    ASSERT(Lines != NULL);
+
+    if (fsize < 2)return;
+
+    MergeSort(Lines, fsize / 2);
+    MergeSort(&Lines[fsize / 2], fsize - (fsize / 2));
+
+    LINE* buf = (LINE*)calloc(fsize, sizeof(LINE));
+
+    int idbuf = 0;
+    int idl = 0;
+    int idr = fsize / 2 ;
+
+    while ((idl < fsize / 2) && (idr < fsize))
+        if (strcmp(Lines[idl].line, Lines[idr].line) < 0) 
+            buf[idbuf++] = Lines[idl++];
+        else
+            buf[idbuf++] = Lines[idr++];
+    
+    while (idl < fsize / 2) 
+        buf[idbuf++] = Lines[idl++];
+
+    while (idr < fsize) 
+        buf[idbuf++] = Lines[idr++];
+
+    for (idl = 0; idl < fsize; idl++) 
+        Lines[idl] = buf[idl];
+        
+    free(buf);
 }
