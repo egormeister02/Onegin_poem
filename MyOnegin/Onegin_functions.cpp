@@ -10,13 +10,31 @@ void CreateText(TEXT* text, FILE* file)
     text->size = ftell(file);
     rewind(file);
 
-    text->buf = (char*)calloc(text->size, sizeof(char));
+    text->buf = (char*)calloc(text->size + 1, sizeof(char));
     ASSERT(text->buf != NULL);
 
     text->size = fread(text->buf,sizeof(char), text->size, file);
 
+    if (text->buf[text->size-1] != '\n')
+    {
+        text->buf[text->size] = '\n';
+        text->size += 1;
+    }
+
     text->nlines = RepAndCount(text, '\n', STR_SEPAR);
     CreateArrayLines(text);
+}
+
+void DtorText(TEXT* text)
+{
+    ASSERT(text != NULL);
+
+    free(text->buf);
+    text->buf = NULL;
+    text->nlines = 0;
+    text->size = 0;
+    free(text->Lines);
+    text->Lines = NULL;  
 }
 
 void CreateArrayLines(TEXT* text) 

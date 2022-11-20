@@ -13,9 +13,9 @@ int main() {
     
     CreateText(&text, source);
     //printf("OK\n");
-    
-    MergeSort(text.Lines, text.nlines, SORT_MODE);
     //TextDumpFunc(&text, logtext);
+    MergeSort(text.Lines, text.nlines, SORT_MODE);
+    
     //printf("OK\n");
 
     WriteText(&text, outfile);
@@ -23,7 +23,6 @@ int main() {
 
     fclose(source);
     fclose(outfile);
-    free(text.buf);
-    free(text.Lines);
+    DtorText(&text);
     return 0;
 }
