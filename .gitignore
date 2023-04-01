@@ -1,0 +1,7 @@
+*.o
+*.log
+*.svg
+*.dot
+*.html
+*.out
+exemple
