@@ -1,9 +1,9 @@
-#include<conio.h>
+
 #include"Onegin.h"
 
 int main() {
 
-    const mode SORT_MODE = RIGHT;
+    const mode SORT_MODE = LEFT;
 
     TEXT text = {};
 

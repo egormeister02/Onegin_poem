@@ -1,4 +1,3 @@
-#include<conio.h>
 #include "Onegin.h"
 
 void CreateText(TEXT* text, FILE* file) 
